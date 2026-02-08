@@ -1,5 +1,5 @@
-name: CI
-
+#docker-image.yml
+name: CI docker
 on:
   workflow_dispatch:
     inputs:
@@ -7,38 +7,35 @@ on:
         description: 'trigger source'
         required: false
         default: 'cron-job.org'
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           persist-credentials: true
-      - name: Commit changes
+      - name: Update README (hidden CI log) + data.txt
         run: |
-          for INSER in {1..3}; do
+          set -e
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          touch README.md
+          touch data.txt
+          if ! grep -q "<!-- CI-LOG-START -->" README.md; then
+            printf "\n## CI Logs\n\n<details>\n<summary><b>Log (Click To Open)</b></summary>\n\n<!-- CI-LOG-START -->\n<!-- CI-LOG-END -->\n\n</details>\n" >> README.md
+          fi
+          for INSER in 1 2; do
             sleep 1
             HOURS=$(date +%H%M)
-            echo $HOURS $INSER > README.md
-            git config user.name "github-actions"
-            git config user.email "github-actions@github.com"
-
-            if [ -n "$(git status --porcelain)" ]; then
-              git add README.md
-              git commit -m "ci: sync data"
-              git push
-            else
-              echo "No changes to commit"
-            fi
+            sed -i "/<!-- CI-LOG-START -->/a\\$HOURS $INSER" README.md
+            git add README.md
+            git commit -m "ci: update hidden log & data"
+            git push
           done
-          touch data.txt
-          mv data.txt data.txt.tmp
-          echo $(date "+%H:%M") >> data.txt.tmp
-          tail -n 10 data.txt.tmp > data.txt
-
+          echo "$(date '+%H:%M')" >> data.txt
+          tail -n 10 data.txt > data.txt.tmp
+          mv data.txt.tmp data.txt
           git add data.txt
           git commit -m "ci: data"
           git push
