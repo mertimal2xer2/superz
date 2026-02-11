@@ -1,5 +1,5 @@
 #docker-image.yml
-name: CI docker
+name: History Logger
 on:
   workflow_dispatch:
     inputs:
@@ -8,35 +8,25 @@ on:
         required: false
         default: 'cron-job.org'
 jobs:
-  build:
+  relay:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           persist-credentials: true
-      - name: Update README (hidden CI log) + data.txt
+      - name: Sync profile
         run: |
           set -e
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          touch README.md
-          touch data.txt
-          if ! grep -q "<!-- CI-LOG-START -->" README.md; then
-            printf "\n## CI Logs\n\n<details>\n<summary><b>Log (Click To Open)</b></summary>\n\n<!-- CI-LOG-START -->\n<!-- CI-LOG-END -->\n\n</details>\n" >> README.md
-          fi
-          for INSER in 1 2; do
-            sleep 1
-            HOURS=$(date +%H%M)
-            sed -i "/<!-- CI-LOG-START -->/a\\$HOURS $INSER" README.md
-            git add README.md
-            git commit -m "ci: update hidden log & data"
-            git push
-          done
-          echo "$(date '+%H:%M')" >> data.txt
-          tail -n 10 data.txt > data.txt.tmp
-          mv data.txt.tmp data.txt
-          git add data.txt
-          git commit -m "ci: data"
+          mkdir -p logs
+          ACCOUNT_ID="$(basename "$GITHUB_REPOSITORY")"
+          FILE="logs/${ACCOUNT_ID}.txt"
+          echo "$(date '+%T') | metric=$(shuf -i100000-999999 -n1)" >> "$FILE"
+          echo "$(date '+%T') | rating=$(shuf -i1000-9999 -n1)" >> "$FILE"
+          NASHJ="$(sha256sum "$FILE" | awk '{print $1}')"
+          echo "$(date '+%T') | signature=$NASHJ" >> "$FILE"
+          git add "$FILE"
+          git commit -m "update: digest3"
           git push
-          
