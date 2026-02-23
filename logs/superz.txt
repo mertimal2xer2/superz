@@ -3391,3 +3391,6 @@
 13:55:10 | hash=707601
 13:55:10 | artifact_size=8380
 13:55:10 | image_digest=12de2e0ebeada707afb88e9e7c98bce7063c91f753df046ff400ebc64acb5075
+14:10:11 | hash=290864
+14:10:11 | artifact_size=3406
+14:10:11 | image_digest=89e20ae34b8f048dceb49f32e540399cd76ebcb05c8637f2a6d48275cbf92296
