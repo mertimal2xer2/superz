@@ -4570,3 +4570,6 @@
 16:25:10 | hash=178860
 16:25:10 | artifact_size=4369
 16:25:10 | image_digest=16f9d85f43aea05f13f38d90d2c154c2b3cf6ad407bbcea5b490235eda885e2c
+16:40:11 | hash=363575
+16:40:11 | artifact_size=3272
+16:40:11 | image_digest=4ad3f0d8dd14066966ef356217d79dbe05c38acd7c1eb795f2feb854182bd2d9
