@@ -4813,3 +4813,6 @@
 12:40:11 | hash=177770
 12:40:11 | artifact_size=3148
 12:40:11 | image_digest=743775895639ffee7cdcf13b8bb8211c2e05bad1241ffac772c7ccf048620f53
+12:55:08 | hash=744583
+12:55:08 | artifact_size=6099
+12:55:08 | image_digest=a4bae3221a9b5aaec6a2b5f271ff02e31fa4c0d23ed237377ae48b627fd4db6b
