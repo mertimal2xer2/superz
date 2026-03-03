@@ -5530,3 +5530,6 @@
 00:25:11 | hash=783168
 00:25:11 | artifact_size=8986
 00:25:11 | image_digest=70825545d6e53aecd1a4de07dd5b83f8be30e9407d7aecae9bb8e524047c7cd1
+00:40:12 | hash=453736
+00:40:12 | artifact_size=7240
+00:40:12 | image_digest=2df5afc8adcb4c85bd3689715c62618ae6f590b40adcad9c96bfa5d2f1c5fff9
